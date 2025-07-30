@@ -9,6 +9,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.keys import Keys
+import undetected_chromedriver as uc
 
 # --- CONFIG ---
 CONTEST_URL = "https://www.hackerrank.com/contests/cse-28072025/judge/submissions/"
@@ -18,10 +20,34 @@ OUTPUT_FILE = "hackerrank_contest_report.xlsx"
 # --- SETUP SELENIUM ---
 options = Options()
 options.add_argument("--start-maximized")
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+driver = Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
 # --- STEP 1: Login manually (only first time) ---
 driver.get("https://www.hackerrank.com/auth/login")
+'''Get Xpath for Sign in with google button'''
+'''
+options = uc.Options()
+options.add_argument("--start-maximized")
+driver = uc.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+curr_wind = driver.current_window_handle
+
+wait = WebDriverWait(driver,20)
+wait.until(driver.number_of_windows_to_be(2))
+for i in driver.window_handles:
+    if i!=curr_wind:
+        driver.switch_to.window(i)
+        break
+
+email = wait.until(
+EC.visibility_f_element_located((By.XPATH, ''))
+)
+email.send_key(emailid)
+passwd = wait.until(
+EC.visibility_f_element_located((By.XPATH, ''))
+)
+passwd.send_key(mypasswd)
+passwd.send_key(Keys.RETURN)
+'''
 print("\n Please log in manually using Google. Once logged in and redirected, press Enter here...")
 input("   Waiting for manual login...")
 
