@@ -2,3 +2,4 @@ beautifulsoup4
 openpyxl
 Requests
 selenium
+undetected-chromedriver
